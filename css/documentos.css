@@ -1,0 +1,348 @@
+/* =========================================================
+   css/documentos.css
+   Estilos exclusivos dos DOCUMENTOS em PNG (não são a interface).
+   Fonte de verdade: imagens de referência da empresa.
+   Documento 1: Declaração de Conteúdo (2 vias por página, A4)
+   Documento 2: Remetente dos Correios (A4)
+   ========================================================= */
+
+/* ---------- Página A4 (usada apenas na exportação/preview) ---------- */
+.doc-page {
+  width: 940px;
+  background: #ffffff;
+  color: #000000;
+  font-family: "Open Sans", "Segoe UI", Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   DOCUMENTO 1 — DECLARAÇÃO DE CONTEÚDO
+   ========================================================= */
+.doc-declaracao {
+  padding: 22px 30px;
+}
+
+.dec-via {
+  border: 3px solid #000;
+  padding: 7px;
+  background: #fff;
+}
+
+.dec-via + .dec-via {
+  margin-top: 40px;
+}
+
+/* Título principal */
+.dec-titulo {
+  border: 2px solid #000;
+  text-align: center;
+  font-size: 21px;
+  font-weight: 700;
+  padding: 4px 0 5px 0;
+  letter-spacing: 0.5px;
+}
+
+/* Blocos REMETENTE / DESTINATÁRIO lado a lado */
+.dec-pessoas {
+  display: flex;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.dec-pessoa {
+  flex: 1 1 50%;
+  border: 3px solid #000;
+  border-collapse: collapse;
+}
+
+.dec-pessoa table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.dec-pessoa th {
+  border-bottom: 2px solid #000;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 7px;
+  text-align: center;
+  padding: 3px 0 4px 0;
+}
+
+.dec-pessoa td {
+  border-bottom: 1.5px solid #000;
+  border-top: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 5px;
+  height: 18px;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.dec-pessoa tr:last-child td {
+  border-bottom: none;
+}
+
+/* Linha em branco (espaço do modelo) */
+.dec-linha-extra {
+  height: 20px;
+}
+
+/* Linha CIDADE | UF */
+.dec-linha-cidade {
+  display: flex;
+}
+
+.dec-cel-cidade {
+  flex: 1;
+  border-right: 1.5px solid #000;
+}
+
+.dec-cel-uf {
+  width: 88px;
+  border-left: none;
+}
+
+/* Linha CEP | CPF/CNPJ/DOC.ESTRANGEIRO */
+.dec-linha-cepdocto {
+  display: flex;
+}
+
+.dec-cel-cep {
+  width: 118px;
+  border-right: 1.5px solid #000;
+}
+
+.dec-cel-docto {
+  flex: 1;
+}
+
+/* Tabela IDENTIFICAÇÃO DOS BENS */
+.dec-bens {
+  border: 3px solid #000;
+  margin-top: 6px;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.dec-bens-title {
+  border-bottom: 2px solid #000;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 7px;
+  padding: 3px 0 4px 0;
+}
+
+.dec-bens table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.dec-bens thead th {
+  border-bottom: 1.5px solid #000;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  height: 26px;
+  letter-spacing: 0.5px;
+}
+
+.dec-bens thead th:nth-child(1) { width: 7%;  }
+.dec-bens thead th:nth-child(2) { width: 58%; }
+.dec-bens thead th:nth-child(3) { width: 17%; }
+.dec-bens thead th:nth-child(4) { width: 18%; }
+
+.dec-bens tbody td {
+  border-bottom: 1px solid #000;
+  font-size: 12px;
+  height: 22px;
+  padding: 2px 6px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.dec-bens .dec-col-conteudo {
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* bordas verticais internas da tabela de bens */
+.dec-bens tbody td:not(:last-child),
+.dec-bens thead th:not(:last-child) {
+  border-right: 1px solid #000;
+}
+
+.dec-linha-totais td {
+  border-bottom: 1px solid #000;
+  height: 24px;
+  vertical-align: middle;
+  padding: 2px 6px;
+}
+
+.dec-totais-label {
+  background: #cbcbcb;
+  text-align: right;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.dec-linha-peso td {
+  height: 24px;
+  vertical-align: middle;
+  padding: 2px 6px;
+}
+
+.dec-bens .sem-borda-baixo {
+  border-bottom: none;
+}
+
+.dec-bens thead th.sem-borda-direita {
+  border-right: none;
+}
+
+/* Quadro DECLARAÇÃO */
+.dec-declaracao {
+  border: 3px solid #000;
+  border-top-width: 3px;
+  margin-top: 6px;
+  padding: 4px 10px 6px 10px;
+}
+
+.dec-declaracao-title {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 7px;
+  padding: 2px 0 3px 0;
+  border-bottom: 1.5px solid #000;
+  margin: 0 -4px 4px -4px;
+}
+
+.dec-declaracao p {
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: justify;
+  margin: 0 0 4px 0;
+  text-indent: 24px;
+}
+
+.dec-declaracao a {
+  color: #1155cc;
+  text-decoration: underline;
+}
+
+/* Linha local/data e assinatura */
+.dec-data-assinatura {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 8px;
+}
+
+.dec-data {
+  font-size: 12px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  width: 56%;
+}
+
+.dec-lacuna {
+  display: inline-block;
+  border-bottom: 1px solid #000;
+  min-width: 40px;
+  text-align: center;
+  font-weight: 400;
+  padding: 0 4px 0 4px;
+}
+
+/* "BH" fica sobre a mesma linha do modelo */
+.dec-local {
+  border-bottom: 1px solid #000;
+  padding: 0 34px 0 6px;
+  font-weight: 400;
+}
+
+.dec-lacuna-mes  { min-width: 158px; }
+.dec-lacuna-dia  { min-width: 46px; }
+.dec-lacuna-ano  { min-width: 78px; }
+.dec-declaracao-ano-maior { min-width: 78px; }
+
+.dec-virgula {
+  padding-bottom: 0;
+}
+
+.dec-assinatura {
+  margin-left: auto;
+  width: 40%;
+  text-align: right;
+}
+
+.dec-linha-assinatura {
+  border-bottom: 1px solid #000;
+  height: 22px;
+}
+
+.dec-legenda-assinatura {
+  font-size: 11.5px;
+  padding-top: 2px;
+}
+
+/* Quadro OBSERVAÇÃO */
+.dec-observacao {
+  border: 3px solid #000;
+  border-top: none;
+  padding: 4px 10px 6px 10px;
+}
+
+.dec-observacao-label {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.dec-observacao p {
+  font-size: 12px;
+  margin: 1px 0 0 0;
+}
+
+/* =========================================================
+   DOCUMENTO 2 — REMETENTE DOS CORREIOS
+   ========================================================= */
+.doc-remetente {
+  width: 940px;
+  min-height: 1330px;
+  padding: 96px 72px 60px 72px;
+}
+
+.remet-bloco {
+  margin-bottom: 88px;
+}
+
+.remet-titulo {
+  font-size: 33px;
+  font-weight: 800;
+  margin: 0 0 14px 0;
+}
+
+.remet-linha {
+  font-size: 31px;
+  font-weight: 600;
+  line-height: 63px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+/* Palco offscreen (o html2canvas captura apenas os documentos) */
+#palco-documentos {
+  position: fixed;
+  left: -20000px;
+  top: 0;
+  background: #fff;
+}

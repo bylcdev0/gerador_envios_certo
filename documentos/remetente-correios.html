@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Modelo — Remetente dos Correios</title>
+  <link rel="stylesheet" href="../css/documentos.css">
+  <style>body { background:#8a8f97; margin:0; padding:24px 0; } .doc-page { margin:0 auto; box-shadow:0 2px 10px rgba(0,0,0,.4); }</style>
+</head>
+<body>
+  <div id="documento"></div>
+  <script src="../js/calculos.js"></script>
+  <script src="../js/gerador-png.js"></script>
+  <script>
+    window.ENVIO_TESTE = {
+      destinatario: {
+        nome: "Maria Silva", // exemplo fictício
+        endereco: "Rua das Flores, 100",
+        bairro: "Centro",
+        cidade: "Belo Horizonte",
+        uf: "MG",
+        cep: "30000-000",
+        documento: "",
+      },
+      equipamentos: [],
+    };
+    document.getElementById("documento").innerHTML =
+      DocumentoModelos.remetenteCorreiosHTML(window.ENVIO_TESTE);
+  </script>
+</body>
+</html>

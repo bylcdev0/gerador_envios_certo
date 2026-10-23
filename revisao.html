@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revisão — Gerador de Envios</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/documentos.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>Gerador de Envios</h1>
+    <p>Revisão e geração dos documentos PNG.</p>
+  </header>
+
+  <nav class="etapas" aria-label="Etapas do envio">
+    <div class="etapa-item" data-etapa="1"><span class="numero">1</span> Destinatário</div>
+    <div class="etapa-item" data-etapa="2"><span class="numero">2</span> Equipamentos</div>
+    <div class="etapa-item" data-etapa="3"><span class="numero">3</span> Revisão</div>
+    <div class="etapa-item" data-etapa="4"><span class="numero">4</span> Geração</div>
+  </nav>
+
+  <main>
+    <div class="alerta" id="alerta-revisao"></div>
+
+    <section class="card" id="secao-revisao">
+      <h2>Revisão do envio</h2>
+      <p class="subtitulo">Confirme os dados antes de gerar os documentos. Os PNGs só são criados após a confirmação explícita.</p>
+
+      <h3 style="font-size:15px; margin:16px 0 8px 0">Destinatário</h3>
+      <div class="dados-revisao" id="rv-destinatario"></div>
+
+      <h3 style="font-size:15px; margin:16px 0 8px 0">Remetente (dados fixos)</h3>
+      <div class="dados-revisao" id="rv-remetente"></div>
+
+      <h3 style="font-size:15px; margin:20px 0 8px 0">Equipamentos</h3>
+      <div style="overflow-x:auto">
+        <table class="tabela" id="rv-tabela">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th class="num">Qtd.</th>
+              <th class="num">Valor unitário</th>
+              <th class="num">Valor total</th>
+              <th class="num">Peso unitário</th>
+              <th class="num">Peso total</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <h3 style="font-size:15px; margin:18px 0 8px 0">Resumo</h3>
+      <div class="resumo-envio">
+        <div class="resumo-item"><div class="rotulo">Quantidade total</div><div class="valor" id="rv-res-qtd">0</div></div>
+        <div class="resumo-item"><div class="rotulo">Valor total</div><div class="valor" id="rv-res-valor">R$ 0,00</div></div>
+        <div class="resumo-item"><div class="rotulo">Peso total</div><div class="valor" id="rv-res-peso">0,00 kg</div></div>
+      </div>
+
+      <div class="acoes">
+        <button type="button" class="btn-secundario" id="rv-voltar">Voltar e editar</button>
+        <button type="button" class="btn-primario" id="rv-confirmar">Confirmar e gerar documentos</button>
+      </div>
+
+      <div class="status-geracao" id="rv-status">
+        <span class="spin" aria-hidden="true"></span>
+        <span id="rv-status-texto">Gerando documentos…</span>
+      </div>
+    </section>
+
+    <section class="card resultado-documentos" id="secao-resultado">
+      <h2>Documentos gerados</h2>
+      <div class="alerta alerta-sucesso visivel" id="msg-sucesso" style="display:block">Documentos gerados com sucesso.</div>
+      <div class="resultado-grid">
+        <div class="resultado-card">
+          <h3>Declaração de Conteúdo</h3>
+          <img id="prev-declaracao" alt="Pré-visualização da Declaração de Conteúdo">
+          <div class="arquivo" id="info-declaracao"></div>
+          <button type="button" class="btn-secundario btn-pequeno" id="dl-declaracao">Baixar Declaracao_de_Conteudo.png</button>
+        </div>
+        <div class="resultado-card">
+          <h3>Remetente dos Correios</h3>
+          <img id="prev-remetente" alt="Pré-visualização do Remetente dos Correios">
+          <div class="arquivo" id="info-remetente"></div>
+          <button type="button" class="btn-secundario btn-pequeno" id="dl-remetente">Baixar Remetente_Correios.png</button>
+        </div>
+      </div>
+      <div class="acoes">
+        <button type="button" class="btn-primario" id="dl-zip">Baixar documentos_envio.zip (os 2 arquivos)</button>
+        <button type="button" class="btn-secundario" id="rv-novo-envio">Novo envio (apaga os dados)</button>
+      </div>
+    </section>
+  </main>
+
+  <p style="color:var(--texto-suave); font-size:12px; text-align:center; padding-bottom:24px">
+    Uso interno — equipe de TI. Os dados não são armazenados permanentemente.
+  </p>
+
+  <script src="js/calculos.js"></script>
+  <script src="vendor/html2canvas.min.js"></script>
+  <script src="vendor/jszip.min.js"></script>
+  <script src="js/gerador-png.js"></script>
+  <script src="js/revisao.js"></script>
+</body>
+</html>

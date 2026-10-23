@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Envios</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>Gerador de Envios</h1>
+    <p>Documentos de envio de equipamentos a colaboradores remotos — Declaração de Conteúdo e Remetente dos Correios.</p>
+  </header>
+
+  <nav class="etapas" aria-label="Etapas do envio">
+    <div class="etapa-item" data-etapa="1"><span class="numero">1</span> Destinatário</div>
+    <div class="etapa-item" data-etapa="2"><span class="numero">2</span> Equipamentos</div>
+    <div class="etapa-item" data-etapa="3"><span class="numero">3</span> Revisão</div>
+    <div class="etapa-item" data-etapa="4"><span class="numero">4</span> Geração</div>
+  </nav>
+
+  <main>
+    <!-- ==================== ETAPA 1: DESTINATÁRIO ==================== -->
+    <section class="etapa visivel" id="secao-destinatario">
+      <div class="card">
+        <h2>Dados do destinatário</h2>
+        <p class="subtitulo">Campos com <span style="color:var(--vermelho)">*</span> são obrigatórios. Os dados permanecem apenas neste navegador.</p>
+
+        <div class="alerta" id="alerta-destinatario"></div>
+
+        <div class="grid-form">
+          <div class="campo campo-largo">
+            <label for="f-nome">Nome completo <span class="obrigatorio">*</span></label>
+            <input type="text" id="f-nome" autocomplete="off" placeholder="Ex.: Maria Silva">
+            <div class="msg-erro-campo" id="erro-nome"></div>
+          </div>
+
+          <div class="campo campo-largo">
+            <label for="f-endereco">Endereço <span class="obrigatorio">*</span></label>
+            <input type="text" id="f-endereco" autocomplete="off" placeholder="Ex.: Rua das Flores, 100">
+            <div class="msg-erro-campo" id="erro-endereco"></div>
+          </div>
+
+          <div class="campo">
+            <label for="f-bairro">Bairro <span class="obrigatorio">*</span></label>
+            <input type="text" id="f-bairro" autocomplete="off" placeholder="Ex.: Centro">
+            <div class="msg-erro-campo" id="erro-bairro"></div>
+          </div>
+
+          <div class="campo">
+            <label for="f-cidade">Cidade <span class="obrigatorio">*</span></label>
+            <input type="text" id="f-cidade" autocomplete="off" placeholder="Ex.: Belo Horizonte">
+            <div class="msg-erro-campo" id="erro-cidade"></div>
+          </div>
+
+          <div class="campo">
+            <label for="f-uf">UF <span class="obrigatorio">*</span></label>
+            <input type="text" id="f-uf" maxlength="2" autocomplete="off" placeholder="Ex.: PR">
+            <div class="msg-erro-campo" id="erro-uf"></div>
+          </div>
+
+          <div class="campo">
+            <label for="f-cep">CEP <span class="obrigatorio">*</span></label>
+            <input type="text" id="f-cep" maxlength="9" autocomplete="off" placeholder="00000-000" inputmode="numeric">
+            <div class="msg-erro-campo" id="erro-cep"></div>
+          </div>
+
+          <div class="campo">
+            <label for="f-documento">CPF/CNPJ/Documento estrangeiro <span class="opcional">(opcional)</span></label>
+            <input type="text" id="f-documento" autocomplete="off" placeholder="Opcional">
+          </div>
+        </div>
+
+        <div class="acoes">
+          <button type="button" class="btn-primario" id="btn-dest-continuar">Continuar para equipamentos</button>
+          <button type="button" class="btn-secundario" id="btn-dest-reiniciar">Reiniciar envio</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ETAPA 2: EQUIPAMENTOS ==================== -->
+    <section class="etapa" id="secao-equipamentos">
+      <div class="card">
+        <h2>Equipamentos do envio</h2>
+        <p class="subtitulo">Selecione um tipo, informe quantidade, valor unitário e peso unitário. A Declaração de Conteúdo comporta no máximo 4 tipos diferentes de equipamento.</p>
+
+        <div class="alerta" id="alerta-equipamentos"></div>
+
+        <div class="tipos-equipamento" id="tipos-equipamento"></div>
+
+        <div class="card" id="form-equipamento" style="display:none; border-color:#bdb4f0; box-shadow:0 1px 4px rgba(29,78,216,.08)">
+          <h3 style="margin:0 0 12px 0; font-size:15px">Equipamento: <span id="eq-tipo-atual" style="font-weight:700"></span></h3>
+
+          <div class="campo" id="campo-descricao-outro" style="display:none; margin-bottom:12px">
+            <label for="eq-descricao-outro">Descrição personalizada <span class="obrigatorio">*</span></label>
+            <input type="text" id="eq-descricao-outro" autocomplete="off" placeholder="Descreva o equipamento">
+          </div>
+
+          <div class="grid-form">
+            <div class="campo">
+              <label for="eq-quantidade">Quantidade <span class="obrigatorio">*</span></label>
+              <input type="text" id="eq-quantidade" inputmode="numeric" placeholder="Ex.: 1">
+              <div class="msg-erro-campo" id="erro-quantidade"></div>
+            </div>
+            <div class="campo">
+              <label for="eq-valor">Valor unitário (R$) <span class="obrigatorio">*</span></label>
+              <input type="text" id="eq-valor" inputmode="decimal" placeholder="Ex.: 5.200,00">
+            </div>
+            <div class="campo">
+              <label for="eq-peso">Peso unitário (kg) <span class="obrigatorio">*</span></label>
+              <input type="text" id="eq-peso" inputmode="decimal" placeholder="Ex.: 2,5">
+            </div>
+          </div>
+
+          <div class="campo-opcao" style="display:none; align-items:center; gap:8px; margin-top:10px">
+            <input type="checkbox" id="eq-incluir-cabo" style="width:auto">
+            <label for="eq-incluir-cabo" style="margin:0; font-weight:400">Associar Cabo de alimentação (adicionado como item separado, sem valores automáticos)</label>
+          </div>
+
+          <div style="margin-top:10px; font-size:13px; color:var(--azul-escuro); min-height:18px" id="eq-previa"></div>
+          <div class="msg-erro-campo" id="msg-erro-equipamento" style="color:var(--vermelho)"></div>
+
+          <div class="acoes" style="margin-top:10px">
+            <button type="button" class="btn-primario" id="btn-eq-salvar">Adicionar equipamento</button>
+            <button type="button" class="btn-secundario" id="btn-eq-cancelar">Cancelar</button>
+          </div>
+        </div>
+
+        <h3 style="margin:18px 0 8px 0; font-size:15px">Equipamentos adicionados</h3>
+        <div style="overflow-x:auto">
+          <table class="tabela">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th class="num">Qtd.</th>
+                <th class="num">Valor unitário</th>
+                <th class="num">Valor total</th>
+                <th class="num">Peso unitário</th>
+                <th class="num">Peso total</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="corpo-tabela-equipamentos"></tbody>
+          </table>
+        </div>
+
+        <div class="resumo-envio">
+          <div class="resumo-item"><div class="rotulo">Quantidade total</div><div class="valor" id="res-qtd">0</div></div>
+          <div class="resumo-item"><div class="rotulo">Valor total</div><div class="valor" id="res-valor">R$ 0,00</div></div>
+          <div class="resumo-item"><div class="rotulo">Peso total</div><div class="valor" id="res-peso">0,00 kg</div></div>
+        </div>
+
+        <div class="acoes">
+          <button type="button" class="btn-secundario" id="btn-eq-voltar">Voltar para destinatário</button>
+          <button type="button" class="btn-primario" id="btn-continuar">Continuar para revisão</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- As etapas 3 (Revisão) e 4 (Geração) ficam em revisao.html -->
+    <p style="color:var(--texto-suave); font-size:12px; text-align:center">
+      Uso interno — equipe de TI. Os dados não são armazenados permanentemente.
+    </p>
+  </main>
+
+  <script src="js/calculos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
