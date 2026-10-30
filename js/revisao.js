@@ -109,26 +109,32 @@
     botao.disabled = true;
     $("rv-voltar").disabled = true;
     $("rv-status").className = "status-geracao visivel";
-    $("rv-status-texto").textContent = "Gerando Declaração de Conteúdo…";
+    $("rv-status-texto").textContent = "Gerando Declaração de Conteúdo (PDF)…";
 
     try {
-      imagensGeradas = await GeradorPNG.gerarDocumentos(envio, {
+      const documentos = await GeradorPDF.gerarDocumentosPDF(envio, {
         aoCapturar(n) {
           $("rv-status-texto").textContent =
-            n === 1 ? "Gerando Remetente dos Correios…" : "Finalizando…";
+            n === 1 ? "Gerando Remetente dos Correios (PDF)…" : "Finalizando…";
         },
       });
 
-      if (!imagensGeradas.declaracao || !imagensGeradas.remetente) {
-        throw new Error("Uma das imagens não foi produzida.");
+      if (!documentos.declaracao || !documentos.remetente) {
+        throw new Error("Um dos documentos não foi produzido.");
       }
+      imagensGeradas = documentos;
 
-      $("prev-declaracao").src = imagensGeradas.declaracao.url;
-      $("prev-remetente").src = imagensGeradas.remetente.url;
+      // Pré-visualização: o próprio PDF real (o que se vê é o que se baixa)
+      const urlDecl = URL.createObjectURL(documentos.declaracao.blob);
+      const urlRem = URL.createObjectURL(documentos.remetente.blob);
+      $("prev-declaracao").src = urlDecl;
+      $("prev-remetente").src = urlRem;
       $("info-declaracao").textContent =
-        "Declaracao_de_Conteudo.png — " + imagensGeradas.declaracao.largura + "×" + imagensGeradas.declaracao.altura + " px";
+        documentos.declaracao.nomeArquivo + " — " + documentos.declaracao.paginas +
+        " página(s), " + Math.round(documentos.declaracao.bytes / 1024) + " KB (texto editável)";
       $("info-remetente").textContent =
-        "Remetente_Correios.png — " + imagensGeradas.remetente.largura + "×" + imagensGeradas.remetente.altura + " px";
+        documentos.remetente.nomeArquivo + " — " + documentos.remetente.paginas +
+        " página(s), " + Math.round(documentos.remetente.bytes / 1024) + " KB (texto editável)";
 
       document.querySelectorAll("[data-etapa]").forEach((el) => {
         const n = Number(el.getAttribute("data-etapa"));
@@ -150,16 +156,16 @@
   });
 
   $("dl-declaracao").addEventListener("click", () => {
-    if (imagensGeradas) GeradorPNG.baixarDataUrl(imagensGeradas.declaracao.url, "Declaracao_de_Conteudo.png");
+    if (imagensGeradas) GeradorPDF.baixarBlob(imagensGeradas.declaracao.blob, imagensGeradas.declaracao.nomeArquivo);
   });
   $("dl-remetente").addEventListener("click", () => {
-    if (imagensGeradas) GeradorPNG.baixarDataUrl(imagensGeradas.remetente.url, "Remetente_Correios.png");
+    if (imagensGeradas) GeradorPDF.baixarBlob(imagensGeradas.remetente.blob, imagensGeradas.remetente.nomeArquivo);
   });
   $("dl-zip").addEventListener("click", async function () {
     if (!imagensGeradas) return;
     this.disabled = true;
     try {
-      await GeradorPNG.baixarZip(imagensGeradas);
+      await GeradorPDF.baixarZip(imagensGeradas);
     } catch (erro) {
       $("alerta-revisao").className = "alerta alerta-aviso visivel";
       $("alerta-revisao").textContent =

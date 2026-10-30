@@ -10,7 +10,7 @@
 <body>
   <header class="topo">
     <h1>Gerador de Envios</h1>
-    <p>Revisão e geração dos documentos PNG.</p>
+    <p>Revisão e geração dos documentos em PDF.</p>
   </header>
 
   <nav class="etapas" aria-label="Etapas do envio">
@@ -74,15 +74,15 @@
       <div class="resultado-grid">
         <div class="resultado-card">
           <h3>Declaração de Conteúdo</h3>
-          <img id="prev-declaracao" alt="Pré-visualização da Declaração de Conteúdo">
+          <embed id="prev-declaracao" type="application/pdf" alt="Pré-visualização da Declaração de Conteúdo" style="width:100%; height:430px; border:1px solid var(--borda)">
           <div class="arquivo" id="info-declaracao"></div>
-          <button type="button" class="btn-secundario btn-pequeno" id="dl-declaracao">Baixar Declaracao_de_Conteudo.png</button>
+          <button type="button" class="btn-secundario btn-pequeno" id="dl-declaracao">Baixar Declaracao_de_Conteudo.pdf</button>
         </div>
         <div class="resultado-card">
           <h3>Remetente dos Correios</h3>
-          <img id="prev-remetente" alt="Pré-visualização do Remetente dos Correios">
+          <embed id="prev-remetente" type="application/pdf" alt="Pré-visualização do Remetente dos Correios" style="width:100%; height:430px; border:1px solid var(--borda)">
           <div class="arquivo" id="info-remetente"></div>
-          <button type="button" class="btn-secundario btn-pequeno" id="dl-remetente">Baixar Remetente_Correios.png</button>
+          <button type="button" class="btn-secundario btn-pequeno" id="dl-remetente">Baixar Remetente_Correios.pdf</button>
         </div>
       </div>
       <div class="acoes">
@@ -97,9 +97,10 @@
   </p>
 
   <script src="js/calculos.js"></script>
-  <script src="vendor/html2canvas.min.js"></script>
   <script src="vendor/jszip.min.js"></script>
+  <script src="vendor/jspdf.umd.min.js"></script>
   <script src="js/gerador-png.js"></script>
+  <script src="js/gerador-pdf.js"></script>
   <script src="js/revisao.js"></script>
 </body>
 </html>

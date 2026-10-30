@@ -6,8 +6,10 @@ gerar os documentos de envio de equipamentos a colaboradores remotos:
 - **Declaração de Conteúdo** (modelo padrão da empresa, com **duas vias** por página);
 - **Remetente dos Correios** (reprodução visual do modelo padrão — não é um formulário oficial dos Correios).
 
-Ambos são gerados como imagens **PNG** em resolução adequada à impressão A4, com os dados
-preenchidos automaticamente a partir do envio informado na interface.
+Ambos são gerados como **PDF vetorial com texto editável** (A4, milímetros), com os dados
+preenchidos automaticamente a partir do envio informado na interface. Como o texto do PDF
+é texto de verdade (não imagem), ele pode ser ajustado no Word, no Acrobat ou no próprio
+navegador depois da geração.
 
 ---
 
@@ -17,7 +19,7 @@ Não há backend, servidor de aplicação ou instalação:
 
 - **Versão publicada (GitHub Pages)**: https://bylcdev0.github.io/gerador_envios_certo/
 1. Abra o arquivo **`index.html`** em um navegador moderno (Chrome, Edge ou Firefox).
-2. Fluxo: Destinatário → Equipamentos → Revisão → Confirmação → Geração dos PNGs → Download.
+2. Fluxo: Destinatário → Equipamentos → Revisão → Confirmação → Geração dos PDFs → Download (individual ou ZIP).
 
 Boa alternativa para testes: `documentos/declaracao-conteudo.html` e
 `documentos/remetente-correios.html` mostram os modelos preenchidos com dados de teste.
@@ -37,11 +39,13 @@ gerador-envios/
 │   ├── app.js                       Formulário, validações, máscaras, equipamentos
 │   ├── revisao.js                   Revisão, confirmação, downloads, novo envio
 │   ├── calculos.js                  Cálculos (inteiros em centavos/gramas) e formatação pt-BR
-│   └── gerador-png.js               Templates HTML dos documentos + html2canvas + ZIP
+│   ├── gerador-pdf.js               Desenho vetorial dos documentos em PDF (jsPDF)
+│   └── gerador-png.js               Templates HTML dos modelos + geração PNG (mantido para as páginas de documentos/)
 ├── documentos/
 │   ├── declaracao-conteudo.html     Pré-visualização do modelo (dados de teste)
 │   └── remetente-correios.html      Pré-visualização do modelo (dados de teste)
 ├── vendor/
+│   ├── jspdf.umd.min.js             v2.5.1 (cópia local — sem CDN)
 │   ├── html2canvas.min.js           v1.4.1 (cópia local — sem CDN)
 │   └── jszip.min.js                 v3.10.1 (cópia local — sem CDN)
 ├── testes/                          Roteiros e resultados de teste
@@ -73,8 +77,9 @@ gerador-envios/
 
 ## A arte dos documentos
 
-`css/documentos.css` e `js/gerador-png.js` reproduzem as **imagens de referência da
-empresa** (fonte principal dos layouts):
+`js/gerador-pdf.js` reproduz as **imagens de referência da empresa** desenhando o PDF
+vetorialmente com jsPDF (fontes Helvetica, coordenadas em mm) — o que se vê na
+pré-visualização `<embed>` é exatamente o PDF baixado:
 
 - Declaração: título em caixa própria, blocos REMETENTE/DESTINATÁRIO lado a lado,
   tabela IDENTIFICAÇÃO DOS BENS (ITEM | CONTEÚDO | QUANT. | VALOR) com 4 linhas,
@@ -89,8 +94,7 @@ empresa** (fonte principal dos layouts):
 
 - **Sem banco de dados**, sem cadastro permanente, sem histórico de envios.
 - Nenhum dado pessoal é enviado para qualquer serviço externo (sem CDNs, sem APIs,
-  sem logs de terceiros). `html2canvas` e `JSZip` rodam 100% no navegador a partir
-  de `vendor/`.
+  sem logs de terceiros). `jsPDF` e `JSZip` rodam 100% no navegador a partir de `vendor/`.
 - Os dados são mantidos em **memória** + `sessionStorage` apenas para permitir
   voltar a uma etapa anterior sem perder o preenchimento. O `sessionStorage` é limpo
   ao clicar em **"Novo envio (apaga os dados)"** ou "Reiniciar envio"; ao fechar o
@@ -98,15 +102,16 @@ empresa** (fonte principal dos layouts):
 
 ## Limitações conhecidas
 
-- A qualidade visual do PNG depende da renderização do próprio navegador;
-  `html2canvas` é a biblioteca de captura (cópia local em `vendor/`).
+- O PDF é gerado com as fontes padrão do jsPDF (Helvetica; negrito via *stroke* nos
+  títulos mais pesados). O visual é fiel às referências, mas não é uma cópia fonte
+  a fonte do original.
 - Fonte: usa `Open Sans`/`Segoe UI`/Arial do sistema — se a máquina não tiver
   `Open Sans`, a tipografia pode diferir discretamente da referência.
-- No documento de Remetente, a linha de cidade usa o formato `CIDADE/estado`,
+- No documento de Remetente, a linha de cidade usa o formato `CIDADE-UF`,
   unificado com o padrão do bloco REMETENTE (`CIDADE: BELO HORIZONTE-MG`); a
   imagem de referência original do destinatário usava uma barra invertida
   (`CIDADE: cidade\UF`), que parece um erro de digitação do original — ajustável
-  em `js/gerador-png.js` se desejado.
+  em `js/gerador-pdf.js`/`js/gerador-png.js` se desejado.
 - O download ZIP depende de `vendor/jszip.min.js`; se o arquivo estiver ausente, os
   downloads individuais continuam funcionando (funcionalidade obrigatória).
 - O `alert()/confirm()` nativo é usado nas confirmações destrutivas.

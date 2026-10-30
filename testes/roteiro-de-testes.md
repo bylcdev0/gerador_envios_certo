@@ -112,5 +112,61 @@ realizadas nesta sessão de desenvolvimento.
 2. Preencher destinatário → continuar → adicionar Notebook (1 × R$ 5.200,00 × 2,50 kg)
    e Mouse (2 × R$ 75,00 × 0,10 kg) → continuar.
 3. Revisão → "Confirmar e gerar documentos" → conferir as duas pré-visualizações.
-4. Baixar os dois PNGs e o ZIP; conferir com os exemplos em
-   `testes/exemplos-gerados/`.
+4. Baixar os dois PDFs e o ZIP; conferir com os exemplos em `testes/exemplos-gerados/`.
+
+---
+
+# Roteiro da atualização "gerar em PDF (texto editável)"
+
+## 17. Geração vetorial dos documentos em PDF — ✔ APROVADO
+
+- "Confirmar e gerar documentos" passou a usar `js/gerador-pdf.js` (jsPDF 2.5.1,
+  cópia local em `vendor/jspdf.umd.min.js`) e produziu:
+  - `Declaracao_de_Conteudo.pdf` — 1 página, 39.553 bytes, **39 KB de texto vetorial
+    editável** (as duas vias na mesma folha A4);
+  - `Remetente_Correios.pdf` — 1 página, 4.573 bytes, texto vetorial editável.
+- O botão durante a geração reportou os dois estágios ("Gerando Declaração de
+  Conteúdo (PDF)…" / "Gerando Remetente dos Correios (PDF)…") e a seção de
+  resultado exibiu as duas informações com contagem de páginas e tamanho.
+
+## 18. Camada de texto (editável) — ✔ APROVADO
+
+- Cabeçalho `%PDF` validado nos dois arquivos.
+- Busca textual no conteúdo bruto dos PDFs (encoding Latin‑1): `REMETENTE:`,
+  `DESTINATÁRIO`, `NOME:`, `Maria Silva`, `Rua das Flores`, `RRPM`,
+  `03.515.918/0004-04`, `30494-170`, `TOTAIS`, `OBSERVAÇÃO`, `correios.com.br` —
+  tudo presente como **texto real** (não imagem), ou seja, selecionável e
+  editável no Word/Acrobat. Nota: `(kg)` no PDF sai escapado como `\(kg\)`
+  (comportamento padrão do formato, não aparece para o usuário).
+
+## 19. Fidelidade visual do PDF — ✔ APROVADO
+
+- Os dois PDFs foram renderizados para imagem (pypdfium2) e conferidos contra
+  as referências da empresa:
+  - Declaração: título em caixa própria, blocos REMETENTE/DESTINATÁRIO lado a
+    lado (remetente com linha de bairro em branco, como no modelo), tabela de
+    bens com 4 linhas + TOTAIS/PESO TOTAL (kg) em cinza, quadro DECLARAÇÃO com
+    o texto legal e o link dos Correios em azul sublinhado, linha
+    `BH , 30 de OUTUBRO de 2026` e assinatura em branco à direita; a **2ª via**
+    começa em `y=154 mm` e termina rente à margem inferior, **sem sobrepor a
+    1ª via** (sobreposição verificada na renderização).
+  - Remetente: blocos "REMETENTE:" e "DESTINATÁRIO:" com entrelinha
+    (~14,1 mm), mesma disposição e hierarquia de negrito da referência.
+- Dois defeitos de programação encontrados durante o teste foram corrigidos e
+  o fluxo regenerado com sucesso (`x` em TDZ e `wp` não definido dentro de
+  `paragrafo()` em `js/gerador-pdf.js`).
+
+## 20. Pré-visualização e downloads em PDF — ✔ APROVADO
+
+- `revisao.html` passou a exibir **o próprio PDF** em `<embed type="application/pdf">`
+  (o que se vê é o que se baixa); `html2canvas` não é mais carregado na revisão.
+- Downloads individuais produziram os PDFs baixados, recuperados no disco e
+  conferidos (`%PDF` válido, tamanho acima).
+- ZIP: mesmos arquivos dentro de `documentos_envio.zip` (nome inalterado).
+
+## 21. Compatibilidade — preservado
+
+- Todo o fluxo anterior (formulário, máscaras, cálculos, limite de 4 itens,
+  sessionStorage) foi reexecutado no mesmo teste com dados fictícios
+  (Maria Silva) e permaneceu igual; `js/gerador-png.js` foi mantido no projeto
+  para as páginas de modelos em `documentos/` (sem uso na geração de revisão).
